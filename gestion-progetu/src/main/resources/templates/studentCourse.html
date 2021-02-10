@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="layout">
+
+<head layout:fragment="custom-head">
+    <title th:text="#{topTitleStudents}">Home students</title>
+</head>
+
+<body>
+    <main layout:fragment="content">
+        <div class="container">
+            <h2 class="text-center" th:text="#{studentsOfAcourse}">Studentsofacourse</h2><br>
+            <hr>
+            <h3><span th:text="${course.get().getId()}">id</span>
+                <span th:text="${course.get().getLibe()}">lib</span></h3>
+            <br>
+            <span th:unless="${students.isEmpty()}">
+                <div class="table-responsive">
+                    <table id="studentTable" class="table table-striped custab">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th th:text="#{students.id}">id</th>
+                                <th th:text="#{students.lastName}">Lastname</th>
+                                <th th:text="#{students.firstName}">Firstname</th>
+                                <th th:text="#{students.gender}">gender</th>
+                                <th th:text="#{students.section}">Section</th>
+                                <th class="text-center" th:text="#{itemAction}">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="student :${students}">
+                                <td><span th:text="${student.getId()}">IDmatricul</span></td>
+                                <td><span th:text="${student.getName()}">Name</span></td>
+                                <td><span th:text="${student.getFirstname()}">firstName</span></td>
+                                <td><span th:text="${student.getGender()}">gender</span></td>
+                                <td><span th:text="${student.getSection()}">Section</span></td>
+                                <!-- Action edit and delete-->
+                                <td class="text-center">
+                                    <form style="display: inline-block;"
+                                        th:action="@{/courses/{idCourse}/delete/student/{idStudent} (idStudent=${student.getId()}, idCourse=${course.get().getId()})}"
+                                        th:method="POST">
+                                        <button type="submit" class="btn btn-danger btn-xs"><i
+                                                class="fas fa-trash-alt"></i>
+                                            <span th:text="#{delete}">delete</span></button>
+                                    </form>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </span>
+            <span th:if="${students.isEmpty()}" th:text="#{anyStudents}">Any students</span>
+            <br>
+            <hr>
+            <br>
+            <div class="login-form">
+                <div class="container">
+                    <div class="row justify-content-center">
+                        <div class="col-md-8">
+                            <div class="card">
+                                <div class="card-content">
+                                    <div class="card-header-blue">
+                                        <h1 class="card-heading" th:text="#{register}">register</h1>
+                                    </div>
+                                    <div class="card-body">
+                                        <form th:action="@{'/courses/{id}/add/student'(id=${course.get().getId()})}"
+                                            th:object="${programToAdd}" method="POST">
+                                            <div class="panel-body">
+                                                <div class="form-row">
+                                                    <div class="form-group col-md-6">
+                                                        <label for="programId.studentID"
+                                                            th:text="#{student}">student</label>
+                                                        <select th:field="*{programId.studentID}" class="form-control"
+                                                            required>
+                                                            <option value=""> -- </option>
+                                                            <option th:each="std : ${allStudents}"
+                                                                th:value="${std.getId()}"
+                                                                th:utext="${std.getId()} + ' '+ ${std.getName()}+ ' '+ ${std.getFirstname()} + ' '+ ${std.getSection()} " />
+                                                        </select>
+                                                        <span th:errors="*{programId.studentID}"
+                                                            class="errorField">error</span>
+                                                    </div>
+                                                </div>
+                                                <br>
+                                                <button type="submit" class="btn btn-primary btn-lg"><i
+                                                        class="fa fa-user-plus"></i> <span
+                                                        th:text="#{add}">add</span></button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br>
+        </div>
+
+    </main>
+    <script layout:fragment="custom-script">
+        $(document).ready(function () {
+            $('#studentTable').DataTable()
+        });
+    </script>
+</body>
+
+</html>

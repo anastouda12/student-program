@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="layout">
+
+<head layout:fragment="custom-head">
+    <title th:text="#{topTitleError404}">Error</title>
+</head>
+
+<body>
+    <main layout:fragment="content">
+        <div class="page-wrap d-flex flex-row align-items-center">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-md-12 text-center">
+                        <div class="display-1 d-block m-b-10 m-t-20">404 😩</div>
+                        <div class="mb-4 lead" th:text="#{error404Message}">Oops !</div>
+                        <br />
+                        <a href="/" class="btn btn-primary btn-lg"><i class="fa fa-home"></i> <span
+                                th:text="#{backtohome}">back</span></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+        </div>
+
+        <th:block th:replace="fragments/main.html::script"></th:block>
+    </main>
+</body>
+
+</html>

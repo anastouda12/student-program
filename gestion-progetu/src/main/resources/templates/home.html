@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="layout">
+
+<head layout:fragment="custom-head">
+    <title th:text="#{topTitleHome}">Home title</title>
+</head>
+
+<body>
+    <main layout:fragment="content">
+        <div class="container">
+            <h2 class="text-center" th:text="#{homeTitle}">Home</h2><br>
+            <hr>
+            <div id="dashboard-container">
+                <div class="row justify-content-center">
+                    <div class="col-md-8">
+                        <div class="card">
+                            <div class="card-content">
+                                <div class="card-header-orange">
+                                    <h1 class="card-heading" th:text="#{card.navigation}">Navigation</h1>
+                                </div>
+                                <div class="card-body">
+                                    <div id="actions-container">
+                                        <!-- Les actions : liens vers les urls -->
+                                        <a class="action border rounded" href="/students">
+                                            <div class="action-logo">
+                                                <img th:src="@{/image/student-register.png}" alt="cours-logo" width="64"
+                                                    height="64">
+                                            </div>
+                                            <div class="action-body-container">
+                                                <div class="action-title" th:text="#{students}">
+                                                    Students
+                                                </div>
+                                                <br>
+                                                <div class="action-description">
+                                                    <ul>
+                                                        <li th:text="#{listStudentsRegistered}">
+                                                            List of students registered </li>
+                                                        <li th:text="#{registerStudent}">
+                                                            Register a student
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </a>
+                                        <a class="action border rounded" href="/courses">
+                                            <div class="action-logo">
+                                                <img th:src="@{/image/logo-course.png}" alt="cours-logo" width="64"
+                                                    height="64">
+                                            </div>
+                                            <div class="action-body-container">
+                                                <div class="action-title" th:text="#{courses}">
+                                                    Courses
+                                                </div>
+                                                <br>
+                                                <div class="action-description">
+                                                    <ul>
+                                                        <li th:text="#{listCourses}">
+                                                            List of courses
+                                                        </li>
+                                                        <li th:text="#{registerCourse}">
+                                                            Add a course
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</body>
+
+</html>

@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="layout">
+
+<head layout:fragment="custom-head">
+    <title th:text="#{topTitleCourses}">Home courses</title>
+</head>
+
+<body>
+    <main layout:fragment="content">
+        <div class="container">
+            <span th:unless="${courses.isEmpty()}">
+                <h2 class="text-center" th:text="#{listCourses}">List courses</h2><br>
+                <hr>
+                <div class="table-responsive">
+                    <table id="courseTable" class="table table-striped custab">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th th:text="#{courses.id}">Initial</th>
+                                <th th:text="#{courses.title}">Title</th>
+                                <th th:text="#{courses.ects}">Ects</th>
+                                <th class=" text-center" th:text="#{itemAction}">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="course :${courses}">
+                                <td><span th:text="${course.getId()}">id</span></td>
+                                <td><span th:text="${course.getLibe()}">title</span></td>
+                                <td><span th:text="${course.getEcts()}">ects</span></td>
+                                <!-- Action edit and delete -->
+                                <td class="text-center">
+                                    <form style="display: inline-block;"
+                                        th:action="@{'/courses/{id}/students'(id=${course.getId()})}" th:method="GET">
+                                        <button type="submit" class="btn btn-info btn-xs"><i
+                                                class="fas fa-user-check"></i>
+                                            <span th:text="#{studentRegistered}">Students registered</span>
+                                        </button>
+                                    </form>
+                                    <form style="display: inline-block;"
+                                        th:action="@{'/courses/delete/{id}'(id=${course.getId()})}" th:method="POST">
+                                        <button type="submit" class="btn btn-danger btn-xs"><i
+                                                class="fas fa-trash-alt"></i>
+                                            <span th:text="#{delete}">delete</span>
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </span>
+            <span th:if="${courses.isEmpty()}" th:text="#{anyCourses}">Any courses</span>
+            <br>
+            <hr>
+            <br>
+            <div class="login-form">
+                <div class="container">
+                    <div class="row justify-content-center">
+                        <div class="col-md-8">
+                            <div class="card">
+                                <div class="card-content">
+                                    <div class="card-header-blue">
+                                        <h1 class="card-heading" th:text="#{newCourse}">New course</h1>
+                                    </div>
+                                    <div class="card-body">
+                                        <form th:action="@{/courses}" th:object="${courseToAdd}" method="POST">
+                                            <div class="panel-body">
+                                                <div class="form-row">
+                                                    <div class="form-group col-md-3">
+                                                        <label for="id" th:text="#{courses.id}">Initial</label>
+                                                        <input type="text" class="form-control" th:field="*{id}" id="id"
+                                                            required />
+                                                        <span th:errors="*{id}" class="errorField">error</span>
+                                                    </div>
+
+                                                    <div class="form-group col-md-5">
+                                                        <label for="libe" th:text="#{courses.title}">Title</label>
+                                                        <input type="text" class="form-control" th:field="*{libe}"
+                                                            id="libe" required />
+                                                        <span th:errors="*{libe}" class="errorField">error</span>
+                                                    </div>
+
+                                                    <div class="form-group col-md-3">
+                                                        <label for="ects" th:text="#{courses.ects}">Ects</label>
+                                                        <input type="text" class="form-control" th:field="*{ects}"
+                                                            id="ect" required />
+                                                        <span th:errors="*{ects}" class="errorField">erreur</span>
+                                                    </div>
+
+                                                </div>
+                                                <br>
+                                                <button type="submit" class="btn btn-primary btn-lg"><i
+                                                        class="fas fa-book-reader"></i>
+                                                    <span th:txt="#{add}"></span>add</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br>
+        </div>
+    </main>
+    <script layout:fragment="custom-script">
+        $(document).ready(function () {
+            $('#courseTable').DataTable();
+        });
+    </script>
+</body>
+
+</html>

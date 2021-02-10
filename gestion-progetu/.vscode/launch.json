@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-PaeApplication<pae>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "console": "internalConsole",
+            "mainClass": "g43256.webg5.pae.PaeApplication",
+            "projectName": "pae",
+            "args": ""
+        }
+    ]
+}

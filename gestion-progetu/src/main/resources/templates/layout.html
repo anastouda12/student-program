@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<head layout:fragment="custom-head">
+    <div th:replace="fragments/main.html::head"></div>
+    <title>custom</title>
+</head>
+
+<body>
+    <header th:replace="fragments/main.html::header"></header>
+
+    <main layout:fragment="content">
+        Ce contenu sera remplacé par le vrai.
+    </main>
+
+    <footer>
+        <footer th:replace="fragments/main.html::footer"></footer>
+    </footer>
+    <th:block th:replace="fragments/main.html::script"></th:block>
+
+    <!-- Custom script de pages différentes-->
+    <script layout:fragment="custom-script"></script>
+
+</body>
+
+</html>

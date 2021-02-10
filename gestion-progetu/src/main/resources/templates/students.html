@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="layout">
+
+<head layout:fragment="custom-head">
+    <title th:text="#{topTitleStudents}">Home students</title>
+</head>
+
+<body>
+    <main layout:fragment="content">
+        <div class="container">
+            <span th:unless="${students.isEmpty()}">
+                <h2 class="text-center" th:text="#{studentRegistered}">Students registered</h2><br>
+                <hr>
+                <div class="table-responsive">
+                    <table id="studentTable" class="table table-striped custab">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th th:text="#{students.id}">id</th>
+                                <th th:text="#{students.lastName}">Lastname</th>
+                                <th th:text="#{students.firstName}">Firstname</th>
+                                <th th:text="#{students.gender}">gender</th>
+                                <th th:text="#{students.section}">Section</th>
+                                <th class="text-center" th:text="#{itemAction}">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="student :${students}">
+                                <td><span th:text="${student.getId()}">id</span></td>
+                                <td><span th:text="${student.getName()}">lastname</span></td>
+                                <td><span th:text="${student.getFirstname()}">firstname</span></td>
+                                <td><span th:text="${student.getGender()}">gender</span></td>
+                                <td><span th:text="${student.getSection()}">section</span></td>
+                                <!-- Action edit and delete-->
+                                <td class="text-center">
+                                    <form th:action="@{'/students/{id}/courses'(id=${student.getId()})}" th:method="GET"
+                                        style="display: inline-block;"> <button type="submit"
+                                            class="btn btn-info btn-xs"><i class="fas fa-user-cog"></i>
+                                            <span th:text="#{program}">Program</span></button>
+                                    </form>
+                                    <form style="display: inline-block;"
+                                        th:action="@{'/students/delete/{id}'(id=${student.getId()})}" th:method="POST">
+                                        <button type="submit" class="btn btn-danger btn-xs"><i
+                                                class="fas fa-trash-alt"></i>
+                                            <span th:text="#{delete}">Delete</span>
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </span>
+            <span th:if="${students.isEmpty()}" th:text="#{anyStudents}">Any students</span>
+            <br>
+            <hr>
+            <br>
+            <div class="login-form">
+                <div class="container">
+                    <div class="row justify-content-center">
+                        <div class="col-md-8">
+                            <div class="card">
+                                <div class="card-content">
+                                    <div class="card-header-blue">
+                                        <h1 class="card-heading" th:text="#{register}">register</h1>
+                                    </div>
+                                    <div class="card-body">
+                                        <form th:action="@{/students}" th:object="${studentToAdd}" method="POST">
+                                            <div class="panel-body">
+                                                <div class="form-row">
+                                                    <div class="form-group col-md-3">
+                                                        <label for="id" th:text="#{students.id}">IDmatricul</label>
+                                                        <input type="number" class="form-control" th:field="*{id}"
+                                                            id="id" required />
+                                                        <span th:errors="*{id}" class="errorField">error</span>
+                                                    </div>
+
+                                                    <div class="form-group col-md-4">
+                                                        <label for="name" th:text="#{students.lastName}">Nom</label>
+                                                        <input type="text" class="form-control mr-sm-2"
+                                                            th:field="*{name}" id="name" required />
+                                                        <span th:errors="*{name}" class="errorField">error</span>
+                                                    </div>
+
+                                                    <div class="form-group col-md-4">
+                                                        <label for="firstname"
+                                                            th:text="#{students.firstName}">firstname</label>
+                                                        <input type="text" class="form-control" th:field="*{firstname}"
+                                                            id="firstname" required />
+                                                        <span th:errors="*{firstname}" class="errorField">error</span>
+                                                    </div>
+
+                                                </div>
+                                                <div class="form-row">
+                                                    <div class="form-group col-md-3">
+                                                        <label for="gender" th:text="#{students.gender}">gender</label>
+                                                        <select th:field="*{gender}" required class="form-control">
+                                                            <option th:each="value : ${genderList}" th:value="${value}"
+                                                                th:text="${value}">
+                                                            </option>
+                                                        </select>
+                                                        <span th:errors="*{gender}" class="errorField">error</span>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-row">
+                                                    <div class="form-group col-md-3">
+                                                        <label for="section"
+                                                            th:text="#{students.section}">Section</label>
+                                                        <select th:field="*{section}" required class="form-control">
+                                                            <option th:each="value : ${sectionList}" th:value="${value}"
+                                                                th:text="${value}">
+                                                            </option>
+                                                        </select>
+                                                        <span th:errors="*{section}" class="errorField">error</span>
+                                                    </div>
+                                                </div>
+                                                <br>
+                                                <button type="submit" class="btn btn-primary btn-lg"><i
+                                                        class="fa fa-user-plus"></i>
+                                                    <span th:text="#{add}">add</span></button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br>
+        </div>
+
+    </main>
+    <script layout:fragment="custom-script">
+        $(document).ready(function () {
+            $('#studentTable').DataTable();
+        });
+    </script>
+</body>
+
+</html>

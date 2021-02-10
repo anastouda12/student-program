@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="layout">
+
+<head layout:fragment="custom-head">
+    <title th:text="#{topTitleProgAnnual}">Home students</title>
+</head>
+
+<body>
+    <main layout:fragment="content">
+        <div class="container">
+            <h2 class="text-center" th:text="#{progAnnualTitle}">Prog annual</h2><br>
+            <hr>
+            <h3>👨‍💻
+                <span th:text="${student.get().getId()}">id</span>
+                <span th:text="${student.get().getFirstname()}">firstname</span>
+                <span th:text="${student.get().getName()}">lastname</span>
+                <span th:text="${student.get().getSection()}">section</span>
+            </h3>
+            <br>
+            <h4 style="text-align: center;">Total <span style="color:#2196F3" th:text="${totalCreditProg}">Ects
+                    programme</span> ects
+            </h4>
+            <span th:unless="${courses.isEmpty()}">
+                <div class="table-responsive">
+                    <table id="studentTable" class="table table-striped custab">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th th:text="#{courses.id}">id</th>
+                                <th th:text="#{courses.title}">title</th>
+                                <th th:text="#{courses.ects}">Ects</th>
+                                <th class="text-center" th:text="#{itemAction}">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="course :${courses}">
+                                <td><span th:text="${course.getId()}">id</span></td>
+                                <td><span th:text="${course.getLibe()}">title</span></td>
+                                <td><span th:text="${course.getEcts()}">ects</span></td>
+                                <!-- Action edit and delete-->
+                                <td class="text-center">
+                                    <form style="display: inline-block;"
+                                        th:action="@{/students/{idStudent}/delete/courses/{idCourse} (idStudent=${student.get().getId()}, idCourse=${course.getId()})}"
+                                        th:method="POST">
+                                        <button type="submit" class="btn btn-danger btn-xs"><i
+                                                class="fas fa-trash-alt"></i>
+                                            <span th:text="#{delete}">Delete</span></button>
+                                    </form>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </span>
+            <span th:if="${courses.isEmpty()}" th:text="#{progEmpty}">Programme un peu vide ! 🧐</span>
+            <br>
+            <hr>
+            <br>
+            <div class="login-form">
+                <div class="container">
+                    <div class="row justify-content-center">
+                        <div class="col-md-8">
+                            <div class="card">
+                                <div class="card-content">
+                                    <div class="card-header-blue">
+                                        <h1 class="card-heading" th:text="#{register}">register</h1>
+                                    </div>
+                                    <div class="card-body">
+                                        <form th:action="@{'/students/{id}/add/courses'(id=${student.get().getId()})}"
+                                            th:object="${programToAdd}" method="POST">
+                                            <div class="panel-body">
+                                                <div class="form-row">
+                                                    <div class="form-group col-md-8">
+                                                        <label for="programId.courseID"
+                                                            th:text="#{course}">Cours</label>
+                                                        <select th:field="*{programId.courseID}" class="form-control"
+                                                            required>
+                                                            <option value=""> -- </option>
+                                                            <option th:each="std : ${allCourses}"
+                                                                th:value="${std.getId()}"
+                                                                th:utext="${std.getId()} + ' '+ ${std.getLibe()}+ ' '+ ${std.getEcts()}+ ' ects '" />
+                                                        </select>
+                                                        <span th:errors="*{programId.courseID}"
+                                                            class="errorField">error</span>
+                                                    </div>
+                                                </div>
+                                                <br>
+                                                <button type="submit" class="btn btn-primary btn-lg"><i
+                                                        class="fa fa-user-plus"></i>
+                                                    <span th:text="#{add}"></span></button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br>
+        </div>
+
+    </main>
+    <script layout:fragment="custom-script">
+        $(document).ready(function () {
+            $('#studentTable').DataTable()
+        });
+    </script>
+</body>
+
+</html>
